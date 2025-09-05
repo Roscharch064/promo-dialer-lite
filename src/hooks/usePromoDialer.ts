@@ -54,30 +54,50 @@ export const usePromoDialer = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Real API call to PromoBank
+      const response = await fetch(`${servidor}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          empresa,
+          operador,
+          senha
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro de autenticação: ${response.status}`);
+      }
+
+      const data = await response.json();
       
       const operator: OperatorInfo = {
-        nome: operador,
-        empresa,
+        nome: data.nome || operador,
+        empresa: data.empresa || empresa,
         servidor
       };
       
       setOperatorInfo(operator);
       setIsAuthenticated(true);
       setConnectionStatus('connected');
-      setClientList(sampleClients);
-      setFilteredClients(sampleClients);
+      
+      // Load clients from API response or use sample data as fallback
+      const clientsData = data.clientes || sampleClients;
+      setClientList(clientsData);
+      setFilteredClients(clientsData);
       
       // Cache data
       localStorage.setItem('promodialer-operator', JSON.stringify(operator));
-      localStorage.setItem('promodialer-clients', JSON.stringify(sampleClients));
+      localStorage.setItem('promodialer-clients', JSON.stringify(clientsData));
       
-      addLog(`Login realizado com sucesso: ${operador}@${empresa}`, 'success');
+      addLog(`Login realizado com sucesso: ${operator.nome}@${operator.empresa}`, 'success');
       
     } catch (error) {
       setConnectionStatus('error');
-      addLog('Erro ao conectar com PromoBank', 'error');
+      const errorMessage = error instanceof Error ? error.message : 'Erro ao conectar com PromoBank';
+      addLog(errorMessage, 'error');
       throw error;
     } finally {
       setIsLoading(false);

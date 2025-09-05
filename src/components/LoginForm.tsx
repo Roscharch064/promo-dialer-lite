@@ -13,7 +13,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
   const [empresa, setEmpresa] = useState('');
   const [operador, setOperador] = useState('');
   const [senha, setSenha] = useState('');
-  const [servidor, setServidor] = useState('https://promobank.com.br');
+  const [servidor, setServidor] = useState('https://promobank.online');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,7 +98,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin, isLoading }) => {
                 </label>
                 <Input
                   type="url"
-                  placeholder="https://promobank.com.br"
+                  placeholder="https://promobank.online"
                   value={servidor}
                   onChange={(e) => setServidor(e.target.value)}
                   className="transition-smooth"
