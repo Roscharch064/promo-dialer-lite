@@ -23,6 +23,7 @@ const PromoDialerApp = () => {
     logs,
     connectionStatus,
     isLoading,
+    isOnlineForCalls,
     authenticatePromoBank,
     makePhoneCall,
     makeWhatsAppCall,
@@ -33,7 +34,8 @@ const PromoDialerApp = () => {
     searchClients,
     clearLogs,
     logout,
-    refreshClients
+    refreshClients,
+    toggleOnlineStatus
   } = usePromoDialer();
 
   if (!isAuthenticated) {
@@ -53,6 +55,8 @@ const PromoDialerApp = () => {
             operatorInfo={operatorInfo!}
             connectionStatus={connectionStatus}
             clientCount={filteredClients.length}
+            isOnlineForCalls={isOnlineForCalls}
+            onToggleOnlineStatus={toggleOnlineStatus}
           />
         );
       case 'clients':

@@ -170,23 +170,25 @@ export const ClientList: React.FC<ClientListProps> = ({
               
               <CardContent className="space-y-4">
                 {/* Client Info */}
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="w-3 h-3 text-muted-foreground" />
-                    <span className="text-muted-foreground">Convênio:</span>
-                    <span className="font-medium">{client.convenio}</span>
+                <div className="space-y-2 text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+                      <span className="text-muted-foreground">Convênio:</span>
+                      <span className="font-medium truncate">{client.convenio}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+                      <span className="text-muted-foreground">Margem:</span>
+                      <span className="font-medium text-success truncate">{formatCurrency(client.margem)}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="w-3 h-3 text-muted-foreground" />
-                    <span className="text-muted-foreground">Margem:</span>
-                    <span className="font-medium text-success">{formatCurrency(client.margem)}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-3 h-3 text-muted-foreground" />
-                    <span className="text-muted-foreground">Último contato:</span>
-                    <span className="font-medium">{formatDate(client.ultimoContato)}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 flex-1">
+                      <Calendar className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+                      <span className="text-muted-foreground">Último:</span>
+                      <span className="font-medium">{formatDate(client.ultimoContato)}</span>
+                    </div>
                     <Badge className={getTabulacaoColor(client.tabulacao)}>
                       {client.tabulacao}
                     </Badge>
@@ -199,64 +201,67 @@ export const ClientList: React.FC<ClientListProps> = ({
                     variant="action"
                     size="sm"
                     onClick={() => onMakeCall(client)}
-                    className="text-success border-success/20 hover:bg-success/10"
+                    className="text-success border-success/20 hover:bg-success/10 h-10"
                   >
-                    <Phone className="w-3 h-3" />
-                    Ligar
+                    <Phone className="w-4 h-4" />
+                    <span className="hidden xs:inline">Ligar</span>
                   </Button>
                   <Button
                     variant="action"
                     size="sm"
                     onClick={() => onWhatsAppCall(client)}
-                    className="text-success border-success/20 hover:bg-success/10"
+                    className="text-success border-success/20 hover:bg-success/10 h-10"
                   >
-                    <PhoneCall className="w-3 h-3" />
-                    WhatsApp Call
+                    <PhoneCall className="w-4 h-4" />
+                    <span className="hidden xs:inline">WhatsApp</span>
                   </Button>
                   <Button
                     variant="action"
                     size="sm"
                     onClick={() => onWhatsAppMessage(client)}
-                    className="text-primary border-primary/20 hover:bg-primary/10"
+                    className="text-primary border-primary/20 hover:bg-primary/10 h-10"
                   >
-                    <MessageCircle className="w-3 h-3" />
-                    WhatsApp Msg
+                    <MessageCircle className="w-4 h-4" />
+                    <span className="hidden xs:inline">Mensagem</span>
                   </Button>
                   <Button
                     variant="action"
                     size="sm"
                     onClick={() => onSendSMS(client)}
-                    className="text-warning border-warning/20 hover:bg-warning/10"
+                    className="text-warning border-warning/20 hover:bg-warning/10 h-10"
                   >
-                    <MessageSquare className="w-3 h-3" />
-                    SMS
+                    <MessageSquare className="w-4 h-4" />
+                    <span className="hidden xs:inline">SMS</span>
                   </Button>
                 </div>
 
                 {/* Tabulação Buttons */}
                 <div className="border-t pt-3">
                   <p className="text-xs text-muted-foreground mb-2">Tabulação Rápida:</p>
-                  <div className="flex gap-1">
+                  <div className="flex flex-wrap gap-2">
                     <Button
                       variant="success"
                       size="xs"
                       onClick={() => onUpdateTabulacao(client.id, 'Interessado')}
+                      className="flex-1 min-w-0"
                     >
-                      Interessado
+                      <span className="truncate">Interessado</span>
                     </Button>
                     <Button
                       variant="warning"
                       size="xs"
                       onClick={() => onUpdateTabulacao(client.id, 'Callback')}
+                      className="flex-1 min-w-0"
                     >
-                      Callback
+                      <span className="truncate">Callback</span>
                     </Button>
                     <Button
                       variant="error"
                       size="xs"
                       onClick={() => onUpdateTabulacao(client.id, 'Não Interessado')}
+                      className="flex-1 min-w-0"
                     >
-                      Não Interessado
+                      <span className="truncate">Não Inter.</span>
                     </Button>
                   </div>
                 </div>

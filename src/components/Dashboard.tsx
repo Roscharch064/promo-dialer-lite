@@ -1,18 +1,23 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Phone, MessageCircle, TrendingUp, Wifi, WifiOff } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Users, Phone, MessageCircle, TrendingUp, Wifi, WifiOff, PhoneCall, PhoneOff } from 'lucide-react';
 import { OperatorInfo, ConnectionStatus } from '@/hooks/usePromoDialer';
 
 interface DashboardProps {
   operatorInfo: OperatorInfo;
   connectionStatus: ConnectionStatus;
   clientCount: number;
+  isOnlineForCalls: boolean;
+  onToggleOnlineStatus: () => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ 
   operatorInfo, 
   connectionStatus, 
-  clientCount 
+  clientCount,
+  isOnlineForCalls,
+  onToggleOnlineStatus
 }) => {
   const stats = [
     {
@@ -45,7 +50,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-gradient-primary rounded-xl p-6 text-white shadow-card">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold">Olá, {operatorInfo.nome}!</h2>
             <p className="text-white/80">{operatorInfo.empresa}</p>
@@ -60,6 +65,37 @@ export const Dashboard: React.FC<DashboardProps> = ({
               {connectionStatus === 'connected' ? 'Online' : 'Offline'}
             </span>
           </div>
+        </div>
+        
+        {/* Call Status Toggle */}
+        <div className="flex items-center justify-between bg-white/10 rounded-lg p-3">
+          <div className="flex items-center gap-3">
+            {isOnlineForCalls ? (
+              <PhoneCall className="w-5 h-5 text-white" />
+            ) : (
+              <PhoneOff className="w-5 h-5 text-white/60" />
+            )}
+            <div>
+              <p className="text-sm font-medium text-white">
+                Status para Chamadas
+              </p>
+              <p className="text-xs text-white/70">
+                {isOnlineForCalls ? 'Disponível para receber chamadas' : 'Indisponível para chamadas'}
+              </p>
+            </div>
+          </div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={onToggleOnlineStatus}
+            className={`${
+              isOnlineForCalls 
+                ? 'bg-white/20 text-white hover:bg-white/30' 
+                : 'bg-white/10 text-white/80 hover:bg-white/20'
+            }`}
+          >
+            {isOnlineForCalls ? 'Online' : 'Offline'}
+          </Button>
         </div>
       </div>
 

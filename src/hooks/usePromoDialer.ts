@@ -24,6 +24,7 @@ export const usePromoDialer = () => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('offline');
   const [isLoading, setIsLoading] = useState(false);
+  const [isOnlineForCalls, setIsOnlineForCalls] = useState(true);
 
   useEffect(() => {
     // Register service worker
@@ -204,6 +205,11 @@ export const usePromoDialer = () => {
     }
   };
 
+  const toggleOnlineStatus = () => {
+    setIsOnlineForCalls(!isOnlineForCalls);
+    addLog(`Status alterado para: ${!isOnlineForCalls ? 'Online' : 'Offline'} para chamadas`, 'info');
+  };
+
   return {
     // State
     isAuthenticated,
@@ -213,6 +219,7 @@ export const usePromoDialer = () => {
     logs,
     connectionStatus,
     isLoading,
+    isOnlineForCalls,
     
     // Actions
     authenticatePromoBank,
@@ -226,6 +233,7 @@ export const usePromoDialer = () => {
     addLog,
     clearLogs,
     logout,
-    refreshClients
+    refreshClients,
+    toggleOnlineStatus
   };
 };
