@@ -54,50 +54,30 @@ export const usePromoDialer = () => {
     setIsLoading(true);
     
     try {
-      // Real API call to PromoBank
-      const response = await fetch(`${servidor}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          empresa,
-          operador,
-          senha
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erro de autenticação: ${response.status}`);
-      }
-
-      const data = await response.json();
+      // Simulate API call (demo mode)
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       const operator: OperatorInfo = {
-        nome: data.nome || operador,
-        empresa: data.empresa || empresa,
+        nome: operador,
+        empresa,
         servidor
       };
       
       setOperatorInfo(operator);
       setIsAuthenticated(true);
       setConnectionStatus('connected');
-      
-      // Load clients from API response or use sample data as fallback
-      const clientsData = data.clientes || sampleClients;
-      setClientList(clientsData);
-      setFilteredClients(clientsData);
+      setClientList(sampleClients);
+      setFilteredClients(sampleClients);
       
       // Cache data
       localStorage.setItem('promodialer-operator', JSON.stringify(operator));
-      localStorage.setItem('promodialer-clients', JSON.stringify(clientsData));
+      localStorage.setItem('promodialer-clients', JSON.stringify(sampleClients));
       
-      addLog(`Login realizado com sucesso: ${operator.nome}@${operator.empresa}`, 'success');
+      addLog(`Login realizado com sucesso: ${operador}@${empresa}`, 'success');
       
     } catch (error) {
       setConnectionStatus('error');
-      const errorMessage = error instanceof Error ? error.message : 'Erro ao conectar com PromoBank';
-      addLog(errorMessage, 'error');
+      addLog('Erro ao conectar com PromoBank', 'error');
       throw error;
     } finally {
       setIsLoading(false);
