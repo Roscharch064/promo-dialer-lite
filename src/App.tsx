@@ -9,6 +9,7 @@ import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
 import { ClientList } from '@/components/ClientList';
 import { LogSystem } from '@/components/LogSystem';
+import { MessageTemplates } from '@/components/MessageTemplates';
 import { Navigation } from '@/components/Navigation';
 
 const queryClient = new QueryClient();
@@ -24,6 +25,8 @@ const PromoDialerApp = () => {
     connectionStatus,
     isLoading,
     isOnlineForCalls,
+    whatsappTemplate,
+    smsTemplate,
     authenticatePromoBank,
     makePhoneCall,
     makeWhatsAppCall,
@@ -35,7 +38,9 @@ const PromoDialerApp = () => {
     clearLogs,
     logout,
     refreshClients,
-    toggleOnlineStatus
+    toggleOnlineStatus,
+    updateWhatsAppTemplate,
+    updateSMSTemplate
   } = usePromoDialer();
 
   if (!isAuthenticated) {
@@ -79,6 +84,16 @@ const PromoDialerApp = () => {
           <LogSystem
             logs={logs}
             onClearLogs={clearLogs}
+          />
+        );
+      case 'messages':
+        return (
+          <MessageTemplates
+            operatorInfo={operatorInfo!}
+            whatsappTemplate={whatsappTemplate}
+            smsTemplate={smsTemplate}
+            onUpdateWhatsAppTemplate={updateWhatsAppTemplate}
+            onUpdateSMSTemplate={updateSMSTemplate}
           />
         );
       default:

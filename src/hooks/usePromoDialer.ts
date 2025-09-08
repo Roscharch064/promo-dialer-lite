@@ -25,6 +25,8 @@ export const usePromoDialer = () => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('offline');
   const [isLoading, setIsLoading] = useState(false);
   const [isOnlineForCalls, setIsOnlineForCalls] = useState(true);
+  const [whatsappTemplate, setWhatsappTemplate] = useState('');
+  const [smsTemplate, setSmsTemplate] = useState('');
 
   useEffect(() => {
     // Register service worker
@@ -37,17 +39,38 @@ export const usePromoDialer = () => {
     // Load cached data
     const cachedOperator = localStorage.getItem('promodialer-operator');
     const cachedClients = localStorage.getItem('promodialer-clients');
+    const cachedWhatsApp = localStorage.getItem('promodialer-whatsapp-template');
+    const cachedSMS = localStorage.getItem('promodialer-sms-template');
     
     if (cachedOperator) {
-      setOperatorInfo(JSON.parse(cachedOperator));
+      const operator = JSON.parse(cachedOperator);
+      setOperatorInfo(operator);
       setIsAuthenticated(true);
       setConnectionStatus('connected');
+      
+      // Set default templates if not cached
+      if (!cachedWhatsApp) {
+        const defaultWhatsApp = `Olá {NOME}, sou ${operator.nome} da ${operator.empresa}. Tenho uma proposta de crédito consignado que pode ser interessante para você.`;
+        setWhatsappTemplate(defaultWhatsApp);
+      }
+      if (!cachedSMS) {
+        const defaultSMS = `Olá {NOME}, ${operator.nome} da ${operator.empresa}. Proposta de crédito consignado disponível.`;
+        setSmsTemplate(defaultSMS);
+      }
     }
     
     if (cachedClients) {
       const clients = JSON.parse(cachedClients);
       setClientList(clients);
       setFilteredClients(clients);
+    }
+    
+    if (cachedWhatsApp) {
+      setWhatsappTemplate(cachedWhatsApp);
+    }
+    
+    if (cachedSMS) {
+      setSmsTemplate(cachedSMS);
     }
   }, []);
 
@@ -70,9 +93,17 @@ export const usePromoDialer = () => {
       setClientList(sampleClients);
       setFilteredClients(sampleClients);
       
+      // Set default templates
+      const defaultWhatsApp = `Olá {NOME}, sou ${operador} da ${empresa}. Tenho uma proposta de crédito consignado que pode ser interessante para você.`;
+      const defaultSMS = `Olá {NOME}, ${operador} da ${empresa}. Proposta de crédito consignado disponível.`;
+      setWhatsappTemplate(defaultWhatsApp);
+      setSmsTemplate(defaultSMS);
+      
       // Cache data
       localStorage.setItem('promodialer-operator', JSON.stringify(operator));
       localStorage.setItem('promodialer-clients', JSON.stringify(sampleClients));
+      localStorage.setItem('promodialer-whatsapp-template', defaultWhatsApp);
+      localStorage.setItem('promodialer-sms-template', defaultSMS);
       
       addLog(`Login realizado com sucesso: ${operador}@${empresa}`, 'success');
       
@@ -98,8 +129,8 @@ export const usePromoDialer = () => {
   };
 
   const sendWhatsAppMessage = (client: Client, customMessage?: string) => {
-    const defaultMessage = `Olá ${client.nome}, sou ${operatorInfo?.nome} da ${operatorInfo?.empresa}. Tenho uma proposta de crédito consignado que pode ser interessante para você.`;
-    const message = customMessage || defaultMessage;
+    const templateMessage = whatsappTemplate.replace('{NOME}', client.nome);
+    const message = customMessage || templateMessage;
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `whatsapp://send?phone=55${client.whatsapp}&text=${encodedMessage}`;
     
@@ -108,8 +139,8 @@ export const usePromoDialer = () => {
   };
 
   const sendSMS = (client: Client, customMessage?: string) => {
-    const defaultMessage = `Olá ${client.nome}, ${operatorInfo?.nome} da ${operatorInfo?.empresa}. Proposta de crédito consignado disponível.`;
-    const message = customMessage || defaultMessage;
+    const templateMessage = smsTemplate.replace('{NOME}', client.nome);
+    const message = customMessage || templateMessage;
     const encodedMessage = encodeURIComponent(message);
     const smsUrl = `sms:+55${client.telefone}?body=${encodedMessage}`;
     
@@ -210,6 +241,18 @@ export const usePromoDialer = () => {
     addLog(`Status alterado para: ${!isOnlineForCalls ? 'Online' : 'Offline'} para chamadas`, 'info');
   };
 
+  const updateWhatsAppTemplate = (template: string) => {
+    setWhatsappTemplate(template);
+    localStorage.setItem('promodialer-whatsapp-template', template);
+    addLog('Modelo WhatsApp atualizado', 'success');
+  };
+
+  const updateSMSTemplate = (template: string) => {
+    setSmsTemplate(template);
+    localStorage.setItem('promodialer-sms-template', template);
+    addLog('Modelo SMS atualizado', 'success');
+  };
+
   return {
     // State
     isAuthenticated,
@@ -220,6 +263,8 @@ export const usePromoDialer = () => {
     connectionStatus,
     isLoading,
     isOnlineForCalls,
+    whatsappTemplate,
+    smsTemplate,
     
     // Actions
     authenticatePromoBank,
@@ -234,6 +279,8 @@ export const usePromoDialer = () => {
     clearLogs,
     logout,
     refreshClients,
-    toggleOnlineStatus
+    toggleOnlineStatus,
+    updateWhatsAppTemplate,
+    updateSMSTemplate
   };
 };
