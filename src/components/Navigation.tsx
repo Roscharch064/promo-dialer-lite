@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Users, Activity, LogOut, User, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Headphones, Activity, LogOut, User, MessageSquare } from 'lucide-react';
 import { OperatorInfo } from '@/hooks/usePromoDialer';
 
 interface NavigationProps {
@@ -18,7 +18,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 }) => {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'clients', label: 'Clientes', icon: Users },
+    { id: 'atendimento', label: 'Atendimento', icon: Headphones },
     { id: 'messages', label: 'Mensagens', icon: MessageSquare },
     { id: 'logs', label: 'Logs', icon: Activity }
   ];

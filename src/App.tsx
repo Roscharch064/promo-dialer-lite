@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { usePromoDialer } from '@/hooks/usePromoDialer';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
-import { ClientList } from '@/components/ClientList';
+import { AtendimentoClient } from '@/components/AtendimentoClient';
 import { LogSystem } from '@/components/LogSystem';
 import { MessageTemplates } from '@/components/MessageTemplates';
 import { Navigation } from '@/components/Navigation';
@@ -64,19 +64,21 @@ const PromoDialerApp = () => {
             onToggleOnlineStatus={toggleOnlineStatus}
           />
         );
-      case 'clients':
+      case 'atendimento':
         return (
-          <ClientList
-            clients={filteredClients}
-            isLoading={isLoading}
-            onMakeCall={makePhoneCall}
-            onWhatsAppCall={makeWhatsAppCall}
-            onWhatsAppMessage={sendWhatsAppMessage}
-            onSendSMS={sendSMS}
-            onUpdateTabulacao={updateClientTabulacao}
-            onSearch={searchClients}
-            onFilter={filterClients}
-            onRefresh={refreshClients}
+          <AtendimentoClient
+            onMakeCall={(phone) => {
+              const phoneUrl = `tel:+55${phone}`;
+              window.open(phoneUrl, '_self');
+            }}
+            onWhatsAppMessage={(phone) => {
+              const whatsappUrl = `whatsapp://send?phone=55${phone}`;
+              window.open(whatsappUrl, '_self');
+            }}
+            onSendSMS={(phone) => {
+              const smsUrl = `sms:+55${phone}`;
+              window.open(smsUrl, '_self');
+            }}
           />
         );
       case 'logs':
