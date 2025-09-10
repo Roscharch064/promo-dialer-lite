@@ -33,28 +33,32 @@ export const QualificacaoModal: React.FC<QualificacaoModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[95vh] w-[95vw] sm:w-full overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl">ATENDIMENTO</DialogTitle>
+          <DialogTitle className="text-lg sm:text-xl">ATENDIMENTO</DialogTitle>
         </DialogHeader>
 
         {/* Navigation tabs */}
-        <div className="flex bg-gradient-primary text-white rounded-lg p-1">
-          <Button variant="ghost" size="sm" className="flex-1 bg-white/20 text-white">
-            <FileText className="w-4 h-4 mr-2" />
-            Propostas
+        <div className="flex flex-wrap bg-gradient-primary text-white rounded-lg p-1 gap-1">
+          <Button variant="ghost" size="sm" className="flex-1 min-w-0 bg-white/20 text-white text-xs sm:text-sm">
+            <FileText className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Propostas</span>
+            <span className="sm:hidden">Prop.</span>
           </Button>
-          <Button variant="ghost" size="sm" className="flex-1 text-white/80">
-            <CheckCircle className="w-4 h-4 mr-2" />
-            Qualificação do Atendimento
+          <Button variant="ghost" size="sm" className="flex-1 min-w-0 text-white/80 text-xs sm:text-sm">
+            <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Qualificação do Atendimento</span>
+            <span className="sm:hidden">Qualif.</span>
           </Button>
-          <Button variant="ghost" size="sm" className="flex-1 text-white/80">
-            <Calendar className="w-4 h-4 mr-2" />
-            Agendamento do Retorno
+          <Button variant="ghost" size="sm" className="flex-1 min-w-0 text-white/80 text-xs sm:text-sm">
+            <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Agendamento do Retorno</span>
+            <span className="sm:hidden">Agendar</span>
           </Button>
-          <Button variant="ghost" size="sm" className="flex-1 text-white/80">
-            <Phone className="w-4 h-4 mr-2" />
-            Qualificação do Telefone
+          <Button variant="ghost" size="sm" className="flex-1 min-w-0 text-white/80 text-xs sm:text-sm">
+            <Phone className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Qualificação do Telefone</span>
+            <span className="sm:hidden">Telefone</span>
           </Button>
         </div>
 
