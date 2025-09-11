@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Phone, MessageSquare, Send, Calendar } from 'lucide-react';
+import { Phone, MessageSquare, Send, Calendar, Wifi } from 'lucide-react';
 import { sampleAtendimentoClient } from '@/data/sampleAtendimento';
 import { ClienteInfo } from './ClienteInfo';
 import { FinanceiroInfo } from './FinanceiroInfo';
@@ -56,6 +56,32 @@ export const AtendimentoClient: React.FC<AtendimentoClientProps> = ({
 
   return (
     <div className="space-y-6">
+      {/* Status para Chamadas */}
+      <div className="bg-gradient-primary text-white p-4 rounded-lg">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-lg sm:text-xl font-semibold">Olá, willan.sup07!</h3>
+              <div className="flex items-center gap-1 text-sm">
+                <Wifi className="w-4 h-4" />
+                <span>Online</span>
+              </div>
+            </div>
+            <p className="text-white/80 text-sm mb-2">1111</p>
+            <div className="space-y-1">
+              <p className="font-medium text-sm">Status para Chamadas</p>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span className="text-sm">Disponível para receber chamadas</span>
+                <Badge variant="secondary" className="bg-green-500/20 text-green-300 border-green-400/30 text-xs">
+                  Online
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Header com informações do cliente */}
       <div className="bg-gradient-primary text-white p-4 rounded-lg">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
